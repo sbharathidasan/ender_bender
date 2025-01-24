@@ -1,7 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';  
-import { Card, Container,Col } from 'react-bootstrap';
-
+import { Card, Container } from 'react-bootstrap';
+import Game from './Game';
 function App() {
   return (
     <div className="App">
@@ -26,6 +26,7 @@ function App() {
       </Card.Body>
     </Container>
     </header>
+    <Game/>
     </div>
   );
 }
