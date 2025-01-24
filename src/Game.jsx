@@ -1,46 +1,46 @@
-// dict api= https://api.dictionaryapi.dev/api/v2/entries/en/<word>
-// word api =https://random-word-api.vercel.app/api?word
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 
-const Game=()=>{
-    const [showResult,setshowResult]=useState(false);
-    const onClick=()=>setshowResult(true)
-    return(
-        <div >
-            <Button onClick={onClick}>START</Button>
-            {showResult?<Result/>:null}
-        </div>
-    )
-}
-const Result=()=>{
-    const Word=async()=>{
-    var a;
+const Game = () => {
+  const [showResult, setShowResult] = useState(false);
+
+  const onClick = () => setShowResult(true);
+
+  return (
+    <div>
+      <Button onClick={onClick}>START</Button>
+      {showResult ? <Result /> : null}
+    </div>
+  );
+};
+
+const Result = () => {
+  const [word, setWord] = useState(""); // To store the fetched word
+
+  // Function to fetch a random word from the API
+  const fetchWord = async () => {
     try {
       const response = await axios.get("https://random-word-api.vercel.app/api?word");
-      console.log(response.data);
-      a=response;
-      if (response.data.status===200) {
-        alert(response.data);
+      if (response.status === 200) {
+        setWord(response.data[0]); // The API returns an array with one word
       }
     } catch (error) {
-        console.log(error);
+      console.error("Error fetching the word:", error);
     }
-    return(
-        <><p>45466lfsljlkf</p></>
-    )
   };
+
+  // Fetch the word when the component mounts
   useEffect(() => {
-    let ignore = false;
-    
-    if (!ignore)  Word()
-    return () => { ignore = true; }
-    },[]);
-    
-    return(
-    <>
-    <></>
-    </>
-)}
+    fetchWord();
+  }, []);
+
+  return (
+    <div>
+      <h3>Random Word:</h3>
+      {word ? <p>{word}</p> : <p>Loading...</p>}
+    </div>
+  );
+};
+
 export default Game;
