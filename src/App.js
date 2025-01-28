@@ -27,7 +27,7 @@ function App() {
       </Card.Body>
     </Container>
     </header>
-    <div style={{marginBottom:"1000px"}}>
+    <div style={{marginBottom:"400px"}}>
     <WordDisp style={{margin:"10px"}}/>
     </div>
     </div>

@@ -25,7 +25,7 @@ const Result = () => {
   const [chances,redChances]=useState(9);
   const [randomWord, setRandomWord] = useState(""); // To store the fetched word
   const [inputWord, setInputWord] = useState(""); // To store user's input
-  const [usedWord] = useState([]);
+  const [usedWord,setUsedWord] = useState([]);
   const [tempRes,setTemp]=useState("");
   // Function to fetch a random word from the API
   const fetchWord = async () => {
@@ -46,6 +46,17 @@ const Result = () => {
   // Function to validate the user's input word
   const validateWord = async () => {
     const l = usedWord.filter(item => {if(item.name.toLowerCase().includes(inputWord.toLowerCase())) {return true} else{return false}});
+    if(chances<=  0){
+      console.log("hi");
+      alert("Nice try ...!! ,Try again 😊 "+"Score =" +point);
+      redChances(9);
+      incPoint(0);
+      console.log(usedWord);
+      usedWord.length=0;
+      fetchWord(); 
+      console.log(usedWord);
+      return;
+    }
     if (l.length==1){
       alert("word already used!");
       redChances(chances-1);
@@ -61,13 +72,7 @@ const Result = () => {
       redChances(chances-1);
       return;
     }
-    if(chances<=  0){
-      console.log("hi");
-      alert("Nice try ...!! ,Try again 😊 "+"Score =" +point);
-      redChances(9);
-      incPoint(0);
-      return;
-    }
+    
       try {
       const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${inputWord}`);
       
