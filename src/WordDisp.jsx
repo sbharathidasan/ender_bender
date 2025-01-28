@@ -21,6 +21,8 @@ const WordDisp = () => {
 };
 
 const Result = () => {
+  const [point,incPoint]=useState(1);
+  const [chances,redChances]=useState(9);
   const [randomWord, setRandomWord] = useState(""); // To store the fetched word
   const [inputWord, setInputWord] = useState(""); // To store user's input
   const [usedWord] = useState([]);
@@ -46,29 +48,44 @@ const Result = () => {
     const l = usedWord.filter(item => {if(item.name.toLowerCase().includes(inputWord.toLowerCase())) {return true} else{return false}});
     if (l.length==1){
       alert("word already used!");
+      redChances(chances-1);
+      console.log(chances);
       return;
     }
     if (!inputWord) {
       alert("Please enter a word!");
       return;
     }
-    if(inputWord[0].toLowerCase()==tempRes[tempRes.length-1].toLowerCase()){
-      alert("please read the rules")
+    if(inputWord[0].toLowerCase()!=tempRes[tempRes.length-1].toLowerCase()){
+      alert("please read the rules");
+      redChances(chances-1);
       return;
     }
-    
+    if(chances<=  0){
+      console.log("hi");
+      alert("Nice try ...!! ,Try again 😊 "+"Score =" +point);
+      redChances(9);
+      incPoint(0);
+      return;
+    }
       try {
       const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${inputWord}`);
       
-      if (response.status === 200) {
+      if (response.status === 200 && chances!=0 ) {
         setRandomWord(inputWord);
         setTemp(inputWord);
+        incPoint(point+1);
+        console.log(point);
         usedWord.push({
           name: inputWord,
         });
+        setInputWord("");
       }
+      
     } catch (error) {
       console.log(error);
+      redChances(chances-1);
+      setInputWord("");
       alert("The word you entered is not valid. Please try again!");
     }
   };
@@ -79,7 +96,7 @@ const Result = () => {
 
   return (
     <div>
-      <h3>{inputWord!=="" ?<>  WORD :</> :<>Random Word : </> }</h3>
+      <h3>WORD</h3>
       {randomWord ? <p>{randomWord}</p> : <p>Loading...</p>}
 
       <h3>Enter Your Word:</h3>
