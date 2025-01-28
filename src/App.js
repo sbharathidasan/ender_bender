@@ -1,12 +1,13 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';  
 import { Card, Container } from 'react-bootstrap';
-import Game from './Game';
+
+import WordDisp from './WordDisp';
 function App() {
   return (
     <div className="App">
       <Card.Title style={{fontWeight:"bold",fontSize:"60px"}}>ENDER BENDER</Card.Title>
-    <header className='App-header' >
+    <header style={{marginBottom:100}}className='App-header' >
       
       <Container >
       <Card  style={{ color: "#000" ,padding:"20px",margin:"69px"}}>
@@ -26,7 +27,9 @@ function App() {
       </Card.Body>
     </Container>
     </header>
-    <Game/>
+    <div style={{marginBottom:"100px"}}>
+    <WordDisp style={{margin:"10px"}}/>
+    </div>
     </div>
   );
 }
