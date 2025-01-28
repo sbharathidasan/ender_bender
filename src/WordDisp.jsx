@@ -24,12 +24,14 @@ const Result = () => {
   const [randomWord, setRandomWord] = useState(""); // To store the fetched word
   const [inputWord, setInputWord] = useState(""); // To store user's input
   const [usedWord] = useState([]);
+  const [tempRes,setTemp]=useState("");
   // Function to fetch a random word from the API
   const fetchWord = async () => {
     try {
       const response = await axios.get("https://random-word-api.vercel.app/api?word");
       if (response.status === 200) {
         setRandomWord(response.data[0]);
+        setTemp(response.data[0]);
         usedWord.push({
           name: response.data[0],
         });
@@ -45,18 +47,22 @@ const Result = () => {
     if (l.length==1){
       alert("word already used!");
       return;
-    }console.log(usedWord);
+    }
     if (!inputWord) {
       alert("Please enter a word!");
       return;
     }
-
-    try {
+    if(inputWord[0].toLowerCase()==tempRes[tempRes.length-1].toLowerCase()){
+      alert("please read the rules")
+      return;
+    }
+    
+      try {
       const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${inputWord}`);
-      console.log(response.data[0].word.length);
       
       if (response.status === 200) {
         setRandomWord(inputWord);
+        setTemp(inputWord);
         usedWord.push({
           name: inputWord,
         });
